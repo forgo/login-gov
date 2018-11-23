@@ -53,8 +53,8 @@ class LoginController {
         val client: OAuth2AuthorizedClient = authorizedClientService.loadAuthorizedClient(authentication.authorizedClientRegistrationId, authentication.name)
         val userInfoEndpointUri = client.clientRegistration.providerDetails.userInfoEndpoint.uri
         if(!StringUtils.isEmpty(userInfoEndpointUri)) {
-            var restTemplate: RestTemplate = RestTemplate()
-            var headers: HttpHeaders = HttpHeaders()
+            var restTemplate = RestTemplate()
+            var headers = HttpHeaders()
             headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + client.accessToken.tokenValue)
 
             val entity: HttpEntity<String> = HttpEntity("", headers)
