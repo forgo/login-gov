@@ -47,10 +47,10 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .and()
             // configure authentication support using an OAuth 2.0 and/or OpenID Connect 1.0 Provider
             .oauth2Login()
-                .loginPage(LOGIN_ENDPOINT)
+//                .loginPage(LOGIN_ENDPOINT)
                 .authorizationEndpoint()
                 .authorizationRequestResolver(LoginGovAuthorizationRequestResolver(clientRegistrationRepository))
-                .baseUri(AUTHORIZATION_ENDPOINT)
+//                .baseUri(AUTHORIZATION_ENDPOINT)
                 .authorizationRequestRepository(authorizationRequestRepository())
                 .and()
                 .tokenEndpoint()
@@ -67,6 +67,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Bean
     fun accessTokenResponseClient(): OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> {
-        return DefaultAuthorizationCodeTokenResponseClient()
+        val accessTokenResponseClient = DefaultAuthorizationCodeTokenResponseClient()
+        accessTokenResponseClient.setRequestEntityConverter(CustomTokenRequestConverter(clientRegistrationRepository))
+        return accessTokenResponseClient
     }
 }

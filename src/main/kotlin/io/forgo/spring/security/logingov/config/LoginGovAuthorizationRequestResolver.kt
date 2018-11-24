@@ -1,5 +1,7 @@
 package io.forgo.spring.security.logingov.config
 
+import io.forgo.spring.security.logingov.constants.LOGIN_GOV_LOA1
+import io.forgo.spring.security.logingov.constants.LOGIN_GOV_REGISTRATION_ID
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter
@@ -12,14 +14,6 @@ import java.util.LinkedHashMap
 
 
 class LoginGovAuthorizationRequestResolver(clientRegistryRepository: ClientRegistrationRepository) : OAuth2AuthorizationRequestResolver {
-
-    companion object {
-        // The Authentication Context Class Reference values used to specify the LOA (level of assurance)
-        // of an account, either LOA1 or LOA3. This and the scope determine which user attributes will be available
-        // in the user info response. The possible parameter values are:
-        const val LOA1 = "http://idmanagement.gov/ns/assurance/loa/1"
-        const val LOA3 = "http://idmanagement.gov/ns/assurance/loa/3"
-    }
 
     private val REGISTRATION_ID_URI_VARIABLE_NAME = "registrationId"
     private var defaultAuthorizationRequestResolver: OAuth2AuthorizationRequestResolver = DefaultOAuth2AuthorizationRequestResolver(
@@ -47,8 +41,8 @@ class LoginGovAuthorizationRequestResolver(clientRegistryRepository: ClientRegis
 
         // set login.gov specific params
         // https://developers.login.gov/oidc/#authorization
-        if(registrationId == "logingov") {
-            additionalParameters["acr_values"] = LOA1
+        if(registrationId == LOGIN_GOV_REGISTRATION_ID) {
+            additionalParameters["acr_values"] = LOGIN_GOV_LOA1
             additionalParameters["nonce"] = "1234567890abcdefghijklmnopqrstuvwxyz"
         }
 
