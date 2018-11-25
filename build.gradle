@@ -51,6 +51,10 @@ ext {
     keystoreFile = "keystore.jks"
     keystorePassword = "password"
     keystoreAlias = "jetty"
+
+    // keystore path
+    // TODO: distinguish paths based on environment (test vs deploy)
+    keystorePath = project.keystoreOutputDir
 }
 
 // keystore plugin readme:
@@ -69,6 +73,15 @@ keystore {
     jksFile = "${project.keystoreFile}"
     jksPassword = "${project.keystorePassword}"
     alias = "${project.keystoreAlias}"
+}
+
+// copies resources from source to target, potentially processing them
+processResources {
+    // pre-process variables inside config.yml from build properties
+    outputs.upToDateWhen { false }
+    filesMatching("**/application.yml") {
+        expand( project.properties )
+    }
 }
 
 repositories {

@@ -1,3 +1,14 @@
+server:
+  ssl:
+    key-alias: ${keystoreAlias}
+    #key-password: \${keyPassword}
+    enabled-protocols: TLSv1.2
+    protocol: TLS
+    enabled: true
+    key-store-password: ${keystorePassword}
+    key-store: ${keystorePath}/${keystoreFile}
+    key-store-type: JKS
+
 spring:
   security:
     oauth2:
