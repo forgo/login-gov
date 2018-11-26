@@ -1,7 +1,6 @@
 package io.forgo.spring.security.logingov.config
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.web.ServerProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -16,12 +15,18 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 @EnableWebSecurity
-class SecurityConfig @Autowired constructor(serverProperties: ServerProperties) : WebSecurityConfigurerAdapter() {
+class SecurityConfig @Autowired constructor(keystoreConfig: LoginGovKeystoreConfiguration) : WebSecurityConfigurerAdapter() {
 
     @Autowired
     lateinit var clientRegistrationRepository: ClientRegistrationRepository
 
-    private final val sslUtil: SSLUtil = SSLUtil(serverProperties)
+    private final val keystoreUtil: KeystoreUtil = KeystoreUtil(
+            keyStore = keystoreConfig.file,
+            keyStorePassword = keystoreConfig.password,
+            keyAlias = keystoreConfig.alias,
+            keyPassword = keystoreConfig.password,
+            keyStoreType = keystoreConfig.type
+    )
 
     companion object {
         const val LOGIN_ENDPOINT = "/oauth_login"
@@ -33,6 +38,8 @@ class SecurityConfig @Autowired constructor(serverProperties: ServerProperties) 
     }
 
     override fun configure(http: HttpSecurity) {
+
+
         http.authorizeRequests()
             // login, login failure, and index are allowed by anyone
             .antMatchers(LOGIN_ENDPOINT, LOGIN_FAILURE_ENDPOINT, "/")
@@ -71,7 +78,7 @@ class SecurityConfig @Autowired constructor(serverProperties: ServerProperties) 
     @Bean
     fun accessTokenResponseClient(): OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> {
         val accessTokenResponseClient = DefaultAuthorizationCodeTokenResponseClient()
-        accessTokenResponseClient.setRequestEntityConverter(CustomTokenRequestConverter(clientRegistrationRepository, sslUtil))
+        accessTokenResponseClient.setRequestEntityConverter(CustomTokenRequestConverter(clientRegistrationRepository, keystoreUtil))
         return accessTokenResponseClient
     }
 }

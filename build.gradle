@@ -77,7 +77,7 @@ keystore {
 
 // copies resources from source to target, potentially processing them
 processResources {
-    // pre-process variables inside config.yml from build properties
+    // pre-process variables inside application.yml using project properties (ext)
     outputs.upToDateWhen { false }
     filesMatching("**/application.yml") {
         expand( project.properties )

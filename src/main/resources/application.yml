@@ -1,13 +1,14 @@
-server:
-  ssl:
-    key-alias: ${keystoreAlias}
-    #key-password: \${keyPassword}
-    enabled-protocols: TLSv1.2
-    protocol: TLS
-    enabled: true
-    key-store-password: ${keystorePassword}
-    key-store: ${keystorePath}/${keystoreFile}
-    key-store-type: JKS
+#server:
+#  port: 8443
+#  ssl:
+#    key-alias: ${keystoreAlias}
+#    #key-password: \${keyPassword}
+#    enabled-protocols: TLSv1.2
+#    protocol: TLS
+#    enabled: true
+#    key-store-password: ${keystorePassword}
+#    key-store: ${keystorePath}/${keystoreFile}
+#    key-store-type: JKS
 
 spring:
   security:
@@ -27,3 +28,11 @@ spring:
             user-info-uri: https://idp.int.identitysandbox.gov/api/openid_connect/userinfo
             user-name-attribute: sub
             jwk-set-uri: https://idp.int.identitysandbox.gov/api/openid_connect/certs
+
+logingov:
+  keystore:
+    alias: ${keystoreAlias}
+    file: ${keystorePath}/${keystoreFile}
+    password: ${keystorePassword}
+    #keyPassword: \${keyPassword}
+    type: JKS

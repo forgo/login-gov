@@ -1,22 +1,14 @@
 package io.forgo.spring.security.logingov.config
 
-import org.springframework.boot.autoconfigure.web.ServerProperties
 import java.io.File
 import java.security.KeyStore
 import java.security.PrivateKey
-import java.security.PublicKey
 import java.security.cert.X509Certificate
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import javax.xml.bind.DatatypeConverter
 
-class SSLUtil(serverProperties: ServerProperties) {
-
-    private val keyStore: String = serverProperties.ssl.keyStore
-    private val keyStorePassword: String = serverProperties.ssl.keyStorePassword
-    private val keyAlias: String = serverProperties.ssl.keyAlias
-    //private val keyPassword: String = serverProperties.ssl.keyPassword
-    private val keyStoreType: String = serverProperties.ssl.keyStoreType
+class KeystoreUtil(keyStore: String, keyStorePassword: String, keyAlias: String, keyPassword: String?, keyStoreType: String) {
 
     private val jksBuilder: KeyStore.Builder = KeyStore.Builder.newInstance(
             keyStoreType,
