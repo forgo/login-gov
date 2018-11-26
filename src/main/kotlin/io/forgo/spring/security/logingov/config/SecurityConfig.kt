@@ -2,7 +2,6 @@ package io.forgo.spring.security.logingov.config
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.web.ServerProperties
-import org.springframework.boot.web.server.SslStoreProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -15,18 +14,10 @@ import org.springframework.security.oauth2.client.web.AuthorizationRequestReposi
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
-import java.io.InputStream
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.security.KeyStore
-import java.security.PrivateKey
-import java.security.cert.X509Certificate
-import javax.xml.bind.DatatypeConverter
 
 @EnableWebSecurity
 class SecurityConfig @Autowired constructor(serverProperties: ServerProperties) : WebSecurityConfigurerAdapter() {
-    
+
     @Autowired
     lateinit var clientRegistrationRepository: ClientRegistrationRepository
 

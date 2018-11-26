@@ -40,7 +40,7 @@ class SSLUtil(serverProperties: ServerProperties) {
     }
 
     fun rsaPublicKey(): RSAPublicKey {
-        return certificate as RSAPublicKey
+        return certificate.publicKey as RSAPublicKey
     }
 
     fun base64PrivateKey(): String {
