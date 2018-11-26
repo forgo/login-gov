@@ -29,17 +29,14 @@ class SecurityConfig @Autowired constructor(keystoreConfig: LoginGovKeystoreConf
     )
 
     companion object {
-        const val LOGIN_ENDPOINT = "/oauth_login"
+        const val LOGIN_ENDPOINT = "/login"
         const val LOGIN_SUCCESS_ENDPOINT = "/login_success"
         const val LOGIN_FAILURE_ENDPOINT = "/login_failure"
-        const val AUTHORIZATION_ENDPOINT = "/oauth2/authorize_client"
         const val LOGOUT_ENDPOINT = "/logout"
         const val LOGOUT_SUCCESS_ENDPOINT = "/"
     }
 
     override fun configure(http: HttpSecurity) {
-
-
         http.authorizeRequests()
             // login, login failure, and index are allowed by anyone
             .antMatchers(LOGIN_ENDPOINT, LOGIN_FAILURE_ENDPOINT, "/")
@@ -57,17 +54,15 @@ class SecurityConfig @Autowired constructor(keystoreConfig: LoginGovKeystoreConf
             .and()
             // configure authentication support using an OAuth 2.0 and/or OpenID Connect 1.0 Provider
             .oauth2Login()
-//                .loginPage(LOGIN_ENDPOINT)
                 .authorizationEndpoint()
                 .authorizationRequestResolver(LoginGovAuthorizationRequestResolver(clientRegistrationRepository))
-//                .baseUri(AUTHORIZATION_ENDPOINT)
                 .authorizationRequestRepository(authorizationRequestRepository())
                 .and()
                 .tokenEndpoint()
                 .accessTokenResponseClient(accessTokenResponseClient())
                 .and()
-                .defaultSuccessUrl(LOGIN_SUCCESS_ENDPOINT)
                 .failureUrl(LOGIN_FAILURE_ENDPOINT)
+                .successHandler(LoginGovAuthenticationSuccessHandler()) // .defaultSuccessUrl() wasn't working
     }
 
     @Bean
