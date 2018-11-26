@@ -26,9 +26,11 @@ In your test app you'll want to configure the following settings:
 
 **Redirect URIs**:
 
+```
 https://localhost:8080/login/oauth2/code/logingov
 https://localhost:8080/authorize/oauth2/code/logingov
 https://localhost:8443/oauth2/authorization/logingov
+```
 
 **Attribute bundle**: If you are leveraging LOA1 context (only need a UUID and email), make sure you only check `email` from this list.
 
