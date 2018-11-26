@@ -18,9 +18,9 @@ In your test app you'll want to configure the following settings:
 
 **Identity protocol**: "Openid connect"
 
-**Issuer**: This value cannot be changed after initially creating the test app. It will need to match the following configuration
+**Issuer**: This value cannot be changed after initially creating the test app on login.gov. You will need to copy that value into your `application.yml` configuration for the following propery:
 
-`spring.security.oauth2.client.registration.logingov.client-id`
+`spring.security.oauth2.client.registration.logingov.client-id: <issuer set on login.gov dashboard>`
 
 **Public key**: Copy the contents of `.keystore/debug.crt` you generated from the `jks` task. Don't run the `jks` task again after setting this on the dashboard; otherwise, your development cert and the cert you publish with login.gov will not match up.
 
