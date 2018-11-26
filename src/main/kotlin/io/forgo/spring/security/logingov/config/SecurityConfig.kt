@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest
+import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 @EnableWebSecurity
@@ -29,7 +30,7 @@ class SecurityConfig @Autowired constructor(keystoreConfig: LoginGovKeystoreConf
     )
 
     companion object {
-        const val LOGIN_ENDPOINT = "/login"
+        const val LOGIN_ENDPOINT = DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL
         const val LOGIN_SUCCESS_ENDPOINT = "/login_success"
         const val LOGIN_FAILURE_ENDPOINT = "/login_failure"
         const val LOGOUT_ENDPOINT = "/logout"
