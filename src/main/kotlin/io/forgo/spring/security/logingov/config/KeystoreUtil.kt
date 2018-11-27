@@ -23,7 +23,6 @@ class KeystoreUtil(keyStore: String, keyStorePassword: String, keyAlias: String,
     private val certificate: X509Certificate = privateKeyEntry.certificate as X509Certificate
 
     private fun printBase64(byteArray: ByteArray): String {
-        certificate
         return DatatypeConverter.printBase64Binary(byteArray)
     }
 

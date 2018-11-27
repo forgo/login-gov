@@ -35,6 +35,7 @@ compileKotlin {
         jvmTarget = "1.8"
     }
 }
+
 compileTestKotlin {
     kotlinOptions {
         freeCompilerArgs = ["-Xjsr305=strict"]
@@ -87,7 +88,6 @@ processResources {
 repositories {
     mavenCentral()
 }
-
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-devtools'

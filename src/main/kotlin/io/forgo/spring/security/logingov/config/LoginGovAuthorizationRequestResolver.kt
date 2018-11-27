@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletRequest
 import java.util.LinkedHashMap
 
 
-class LoginGovAuthorizationRequestResolver(clientRegistryRepository: ClientRegistrationRepository) : OAuth2AuthorizationRequestResolver {
+class LoginGovAuthorizationRequestResolver(clientRegistrationRepository: ClientRegistrationRepository) : OAuth2AuthorizationRequestResolver {
 
     private val REGISTRATION_ID_URI_VARIABLE_NAME = "registrationId"
     private var defaultAuthorizationRequestResolver: OAuth2AuthorizationRequestResolver = DefaultOAuth2AuthorizationRequestResolver(
-            clientRegistryRepository, OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI
+            clientRegistrationRepository, OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI
     )
     private val authorizationRequestMatcher: AntPathRequestMatcher = AntPathRequestMatcher(
             OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI + "/{" + REGISTRATION_ID_URI_VARIABLE_NAME + "}")

@@ -14,9 +14,9 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames
 import org.springframework.util.MultiValueMap
 import java.util.*
 
-class CustomTokenRequestConverter(clientRegistryRepository: ClientRegistrationRepository, keystoreUtil: KeystoreUtil) : OAuth2AuthorizationCodeGrantRequestEntityConverter() {
+class LoginGovTokenRequestConverter(clientRegistrationRepository: ClientRegistrationRepository, keystoreUtil: KeystoreUtil) : OAuth2AuthorizationCodeGrantRequestEntityConverter() {
 
-    open val clientRegistryRepository = clientRegistryRepository
+    open val clientRegistrationRepository = clientRegistrationRepository
     open val keystoreUtil = keystoreUtil
 
     override fun convert(authorizationCodeGrantRequest: OAuth2AuthorizationCodeGrantRequest): RequestEntity<*>? {
@@ -25,10 +25,10 @@ class CustomTokenRequestConverter(clientRegistryRepository: ClientRegistrationRe
 
         val registrationId: String = this.resolveRegistrationId(authorizationCodeGrantRequest)
         if(registrationId == LOGIN_GOV_REGISTRATION_ID) {
-            val clientRegistry = clientRegistryRepository.findByRegistrationId(registrationId)
-            val clientId: String = clientRegistry.clientId
-            val clientSecret: String = clientRegistry.clientSecret
-            val tokenUri: String = clientRegistry.providerDetails.tokenUri
+            val clientRegistration = clientRegistrationRepository.findByRegistrationId(registrationId)
+            val clientId: String = clientRegistration.clientId
+            val clientSecret: String = clientRegistration.clientSecret
+            val tokenUri: String = clientRegistration.providerDetails.tokenUri
             val expirationTime: Long = LOGIN_GOV_TOKEN_EXPIRATION_TIME
 
             val jwt: String = JWT.create()

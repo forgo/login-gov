@@ -25,7 +25,7 @@ class SecurityConfig @Autowired constructor(keystoreConfig: LoginGovKeystoreConf
             keyStore = keystoreConfig.file,
             keyStorePassword = keystoreConfig.password,
             keyAlias = keystoreConfig.alias,
-            keyPassword = keystoreConfig.password,
+            keyPassword = null,
             keyStoreType = keystoreConfig.type
     )
 
@@ -77,7 +77,7 @@ class SecurityConfig @Autowired constructor(keystoreConfig: LoginGovKeystoreConf
     @Bean
     fun accessTokenResponseClient(): OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> {
         val accessTokenResponseClient = DefaultAuthorizationCodeTokenResponseClient()
-        accessTokenResponseClient.setRequestEntityConverter(CustomTokenRequestConverter(clientRegistrationRepository, keystoreUtil))
+        accessTokenResponseClient.setRequestEntityConverter(LoginGovTokenRequestConverter(clientRegistrationRepository, keystoreUtil))
         return accessTokenResponseClient
     }
 }
