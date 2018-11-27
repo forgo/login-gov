@@ -40,7 +40,7 @@ class SecurityConfig @Autowired constructor(keystoreConfig: LoginGovKeystoreConf
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
             // login, login failure, and index are allowed by anyone
-            .antMatchers(LOGIN_ENDPOINT, LOGIN_FAILURE_ENDPOINT, "/")
+            .antMatchers(LOGIN_ENDPOINT, LOGIN_SUCCESS_ENDPOINT, LOGIN_FAILURE_ENDPOINT, "/")
                 .permitAll()
             // any other requests are allowed by an authenticated user
             .anyRequest()
@@ -52,6 +52,7 @@ class SecurityConfig @Autowired constructor(keystoreConfig: LoginGovKeystoreConf
                 .logoutSuccessUrl(LOGOUT_SUCCESS_ENDPOINT)
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
+                .logoutSuccessHandler(LoginGovLogoutSuccessHandler())
             .and()
             // configure authentication support using an OAuth 2.0 and/or OpenID Connect 1.0 Provider
             .oauth2Login()
@@ -64,6 +65,8 @@ class SecurityConfig @Autowired constructor(keystoreConfig: LoginGovKeystoreConf
                 .and()
                 .failureUrl(LOGIN_FAILURE_ENDPOINT)
                 .successHandler(LoginGovAuthenticationSuccessHandler()) // .defaultSuccessUrl() wasn't working
+                .and()
+                .oauth2Login()
     }
 
     @Bean

@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 class MVCConfig : WebMvcConfigurer {
     override fun addViewControllers(registry: ViewControllerRegistry) {
         registry.addViewController("login_failure")
-        registry.addViewController("login_success")
         registry.addViewController("secure_content")
     }
 }
