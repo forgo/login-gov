@@ -28,9 +28,11 @@ For the purposes of demonstation, you shouldn't need to change any values here (
 - `keystoreAlias`: alias tied to the key of the generated keystore
 - `keystorePassword`: the password used to generate the keystore
 
+
 **3. Review Login.gov OpenID documentation:**
 
 To better understand the specification which drove this project, refer to the [OpenID Developer Guide](https://developers.login.gov/oidc/) provided by Login.gov.
+
 
 **4. (OPTIONAL) Publish test app on the [Login.gov Dashboard](https://dashboard.int.identitysandbox.gov/):**
 
@@ -53,7 +55,8 @@ If you have developer access and wish to register your own test app, ensure your
 
 **NOTE:** The value "logingov" as the `<registrationId>` of our Spring Security autoconfiguration is arbitrary. If you really need to change this, change it in the `application.yml` and also the constant `LOGIN_GOV_REGISTRATION_ID` in the `LoginGovConstants` file. Your `Redirect URIs` registered on your login.gov test app will also need to reflect this change, as those paths are generated from a template.
 
-**3. Run the application:**
+
+**5. Run the application:**
 
 `./gradlew bootrun`
 
