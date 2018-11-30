@@ -63,4 +63,5 @@ If you have developer access, register your own test app and ensure your configu
 `http://localhost:8080/login`
 
 <br/>**7. Logout:**
+
 `http://localhost:8080/logout`
