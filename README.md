@@ -1,4 +1,4 @@
-### Instructions
+## Instructions
 
 **1. Run the [Gradle Keystore Plugin](https://plugins.gradle.org/plugin/io.forgo.keystoreplugin):**
 
@@ -20,6 +20,19 @@ If you have developer access and wish to register your own test app, ensure your
 
 - **Identity protocol**: "Openid connect"
 - **Issuer**: "urn:gov:gsa:openidconnect.profiles:sp:sso:_\<your organization\>_:_\<your app name\>_"
+
+  - The issuer should match the `client-id` in your Spring config.
+```
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          logingov:
+            client-id: ${clientId}
+```
+
+
 - **Public key**: Copy the contents of `.keystore/debug.crt` from the `jks` task. Don't run the `jks` task again after setting this on the dashboard; otherwise, your development key (used to sign the _client\_assertion_ JWT in the token request) will not match up with the public cert published to login.gov .
 - **Redirect URIs**:
   - `http://localhost:8080/authorize/oauth2/code/logingov`
