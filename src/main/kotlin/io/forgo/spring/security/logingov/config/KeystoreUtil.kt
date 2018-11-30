@@ -8,13 +8,13 @@ import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import javax.xml.bind.DatatypeConverter
 
-class KeystoreUtil(keyStore: String, keyStorePassword: String, keyAlias: String, keyPassword: String?, keyStoreType: String) {
+class KeystoreUtil(keyStore: String?, keyStorePassword: String?, keyAlias: String?, keyPassword: String?, keyStoreType: String?) {
 
     private val jksBuilder: KeyStore.Builder = KeyStore.Builder.newInstance(
             keyStoreType,
             null,
             File(keyStore),
-            KeyStore.PasswordProtection(keyStorePassword.toCharArray())
+            KeyStore.PasswordProtection(keyStorePassword?.toCharArray())
     )
     private val jks: KeyStore = jksBuilder.keyStore
     private val protectionParameter: KeyStore.ProtectionParameter = jksBuilder.getProtectionParameter(keyAlias)

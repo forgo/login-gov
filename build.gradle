@@ -47,11 +47,17 @@ ext {
     // dependency versioning
     auth0JavaJWT = '3.4.1'
 
-    // keystore file
+    // login.gov configurations
+    clientId = "urn:gov:gsa:openidconnect.profiles:sp:sso:forgo:login-gov"
+    allowedOrigin = "http://localhost:8080"
+    loginSuccessRedirect = "http://localhost:8080/onestop"
+    logoutSuccessRedirect = "http://localhost:8080/onestop"
+
+    // login.gov keystore configuration (for JWT signing on token request)
     keystoreOutputDir = ".keystore"
-    keystoreFile = "keystore.jks"
+    keystoreFile = "logingov_keystore.jks"
+    keystoreAlias = "logingov"
     keystorePassword = "password"
-    keystoreAlias = "jetty"
 
     // keystore path
     // TODO: distinguish paths based on environment (test vs deploy)
