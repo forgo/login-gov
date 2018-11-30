@@ -36,7 +36,7 @@ To better understand the specification which drove this project, refer to the [O
 
 <br/>**4. Publish test app on the [Login.gov Dashboard](https://dashboard.int.identitysandbox.gov/):**
 
-If you have developer access,register your own test app and ensure your configuration is in sync before running the application. You'll want to configure the following on the dashboard:
+If you have developer access, register your own test app and ensure your configuration is in sync before running the application. You'll want to configure the following on the dashboard:
 
 - **Identity protocol**: "Openid connect"
 - **Issuer**: "urn:gov:gsa:openidconnect.profiles:sp:sso:_\<your organization\>_:_\<your app name\>_"
