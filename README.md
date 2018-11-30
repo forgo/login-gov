@@ -28,7 +28,7 @@ If you have developer access and wish to register your own test app, ensure your
 
 **NOTE:** The value "logingov" as the `<registrationId>` of our Spring Security autoconfiguration is arbitrary. If you really need to change this, change it in the `application.yml` and also the constant `LOGIN_GOV_REGISTRATION_ID` in the `LoginGovConstants` file. Your `Redirect URIs` registered on your login.gov test app will also need to reflect this change, as those paths are generated from a template.
 
-**3. Run the application
+**3. Run the application:**
 
 `./gradlew bootrun`
 
