@@ -1,44 +1,42 @@
 package io.forgo.spring.security.logingov.config
 
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.ResponseEntity
+import io.forgo.spring.security.logingov.constants.LOGIN_GOV_LOGOUT_ENDPOINT
+import io.forgo.spring.security.logingov.constants.LOGIN_GOV_LOGOUT_PARAM_ID_TOKEN_HINT
+import io.forgo.spring.security.logingov.constants.LOGIN_GOV_LOGOUT_PARAM_POST_LOGOUT_REDIRECT_URI
+import io.forgo.spring.security.logingov.constants.LOGIN_GOV_LOGOUT_PARAM_STATE
 import org.springframework.security.core.Authentication
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.security.oauth2.core.oidc.OidcIdToken
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler
-import org.springframework.util.StringUtils
-import org.springframework.web.client.RestTemplate
+import org.springframework.web.util.UriComponentsBuilder
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class LoginGovLogoutSuccessHandler(authorizedClientService: OAuth2AuthorizedClientService) : SimpleUrlLogoutSuccessHandler() {
+class LoginGovLogoutSuccessHandler : SimpleUrlLogoutSuccessHandler() {
 
-    private val authorizedClientService: OAuth2AuthorizedClientService = authorizedClientService
-
-    // TODO: should we call the login.gov supported "RP-Initiated Logout" to invalidate login.gov's session too?
-    // https://developers.login.gov/oidc/#logout
     override fun onLogoutSuccess(request: HttpServletRequest?, response: HttpServletResponse?, authentication: Authentication?) {
-//        val authenticationToken: OAuth2AuthenticationToken = authentication as OAuth2AuthenticationToken
-//        authenticationToken.principal
-//        val user: OidcUser = authenticationToken.principal as OidcUser
-//        val idToken: OidcIdToken = user.idToken
 
-//        val logoutEndpointUri = "https://idp.int.identitysandbox.gov/openid_connect/logout"
-//        if (!StringUtils.isEmpty(logoutEndpointUri)) {
-//            val state: String = UUID.randomUUID().toString()
-//            var restTemplate = RestTemplate()
-//            var headers = HttpHeaders()
-//            val entity: HttpEntity<String> = HttpEntity("", headers)
-//            restTemplate.exchange(logoutEndpointUri, HttpMethod.GET, entity, )
-//            val response: ResponseEntity<Map<*, *>> = restTemplate.exchange(logoutEndpointUri, HttpMethod.GET, entity, Map::class.java)
-//        }
+        // extrapolate id_token from original token response (needed for logout request)
+        // Authentication -> OAuth2AuthenticationToken -> OidcUser -> OidcIdToken
+        // This cast is possible because of the 'openid' scope/flow in the client registration config
+        val authenticationToken: OAuth2AuthenticationToken = authentication as OAuth2AuthenticationToken
+        val user: OidcUser = authenticationToken.principal as OidcUser
+        val idToken: OidcIdToken = user.idToken
+        val idTokenHint: String = idToken.tokenValue
 
-        redirectStrategy.sendRedirect(request, response, SecurityConfig.LOGOUT_SUCCESS_ENDPOINT)
+        // Call the login.gov supported "RP-Initiated Logout" to invalidate login.gov's session
+        // https://developers.login.gov/oidc/#logout
+        val state: String = UUID.randomUUID().toString()
+        val postLogoutRedirectUri: String = RequestUtil.getURL(request, SecurityConfig.LOGOUT_SUCCESS_ENDPOINT)
+
+        val builder: UriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(LOGIN_GOV_LOGOUT_ENDPOINT)
+                .queryParam(LOGIN_GOV_LOGOUT_PARAM_ID_TOKEN_HINT, idTokenHint)
+                .queryParam(LOGIN_GOV_LOGOUT_PARAM_POST_LOGOUT_REDIRECT_URI, postLogoutRedirectUri)
+                .queryParam(LOGIN_GOV_LOGOUT_PARAM_STATE, state)
+
+        redirectStrategy.sendRedirect(request, response, builder.toUriString())
     }
 
 }

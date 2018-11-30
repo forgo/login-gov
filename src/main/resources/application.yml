@@ -20,7 +20,7 @@ spring:
             #client-secret: logingovsecret
             authorization-grant-type: authorization_code
             redirect-uri-template: "{baseUrl}/{action}/oauth2/code/{registrationId}"
-            scope: openid email
+            scope: openid, email
         provider:
           logingov:
             authorization-uri: https://idp.int.identitysandbox.gov/openid_connect/authorize

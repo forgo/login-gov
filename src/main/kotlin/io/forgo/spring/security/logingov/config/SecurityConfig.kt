@@ -6,7 +6,6 @@ import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService
 import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest
@@ -24,9 +23,6 @@ import org.springframework.web.filter.CorsFilter
 class SecurityConfig @Autowired constructor(loginGovConfiguration: LoginGovConfiguration) : WebSecurityConfigurerAdapter() {
 
     @Autowired
-    lateinit var authorizedClientService: OAuth2AuthorizedClientService
-
-    @Autowired
     lateinit var clientRegistrationRepository: ClientRegistrationRepository
 
     private final val keystore: MutableMap<String, String?> = loginGovConfiguration.keystore
@@ -38,8 +34,6 @@ class SecurityConfig @Autowired constructor(loginGovConfiguration: LoginGovConfi
             keyStoreType = keystore["type"]
     )
     private final val allowedOrigin: String = loginGovConfiguration.allowedOrigin
-    private final val loginSuccessRedirect: String = loginGovConfiguration.loginSuccessRedirect
-    private final val logoutSuccessRedirect: String = loginGovConfiguration.logoutSuccessRedirect
 
     companion object {
         const val LOGIN_ENDPOINT = DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL
@@ -73,7 +67,7 @@ class SecurityConfig @Autowired constructor(loginGovConfiguration: LoginGovConfi
                 .logoutSuccessUrl(LOGOUT_SUCCESS_ENDPOINT)
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
-                .logoutSuccessHandler(LoginGovLogoutSuccessHandler(authorizedClientService))
+                .logoutSuccessHandler(LoginGovLogoutSuccessHandler())
             .and()
             // configure authentication support using an OAuth 2.0 and/or OpenID Connect 1.0 Provider
             .oauth2Login()
@@ -93,8 +87,8 @@ class SecurityConfig @Autowired constructor(loginGovConfiguration: LoginGovConfi
         // fix OPTIONS preflight login profile request failure with 403 Invalid CORS request
         val config = CorsConfiguration()
         config.addAllowedOrigin(allowedOrigin)
-        config.allowedHeaders = listOf("x-auth-token", "Authorization", "Cache-Control", "Content-Type")
-        config.exposedHeaders = listOf("x-auth-token", "Authorization", "Cache-Control", "Content-Type")
+        config.allowCredentials = true
+        config.allowedHeaders = listOf("x-auth-token", "Authorization", "cache", "Content-Type")
         config.addAllowedMethod(HttpMethod.OPTIONS)
         config.addAllowedMethod(HttpMethod.GET)
 
