@@ -23,10 +23,10 @@ class LoginGovLogoutSuccessHandler(authorizedClientService: OAuth2AuthorizedClie
     // TODO: should we call the login.gov supported "RP-Initiated Logout" to invalidate login.gov's session too?
     // https://developers.login.gov/oidc/#logout
     override fun onLogoutSuccess(request: HttpServletRequest?, response: HttpServletResponse?, authentication: Authentication?) {
-        val authenticationToken: OAuth2AuthenticationToken = authentication as OAuth2AuthenticationToken
-        authenticationToken.principal
-        val user: OidcUser = authenticationToken.principal as OidcUser
-        val idToken: OidcIdToken = user.idToken
+//        val authenticationToken: OAuth2AuthenticationToken = authentication as OAuth2AuthenticationToken
+//        authenticationToken.principal
+//        val user: OidcUser = authenticationToken.principal as OidcUser
+//        val idToken: OidcIdToken = user.idToken
 
 //        val logoutEndpointUri = "https://idp.int.identitysandbox.gov/openid_connect/logout"
 //        if (!StringUtils.isEmpty(logoutEndpointUri)) {

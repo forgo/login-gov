@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.client.RestTemplate
 import org.thymeleaf.util.StringUtils
+import java.net.URI
+import java.net.URL
+import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Controller
@@ -27,11 +30,17 @@ class LoginController {
     @Autowired
     lateinit var authorizedClientService: OAuth2AuthorizedClientService
 
+    fun getURL(request: HttpServletRequest, path: String): String {
+        val url = URL(request.requestURL.toString())
+        val uri = URI(url.protocol, url.userInfo, url.host, url.port, path, null, null)
+        return uri.toString()
+    }
+
     @GetMapping(SecurityConfig.LOGIN_PROFILE_ENDPOINT)
     @ResponseBody
-    fun loginProfile(authentication: OAuth2AuthenticationToken?): HashMap<String, Any?> {
+    fun loginProfile(httpServletRequest: HttpServletRequest, authentication: OAuth2AuthenticationToken?): HashMap<String, Any?> {
         if(authentication == null) {
-            return hashMapOf()
+            return hashMapOf("login" to getURL(httpServletRequest, SecurityConfig.LOGIN_ENDPOINT))
         }
         else {
             val client: OAuth2AuthorizedClient = authorizedClientService.loadAuthorizedClient(authentication.authorizedClientRegistrationId, authentication.name)
@@ -47,7 +56,7 @@ class LoginController {
                 val userAttributes: Map<*, *>? = response.body
                 email = userAttributes?.get("email")
             }
-            return hashMapOf("email" to email)
+            return hashMapOf("email" to email, "logout" to getURL(httpServletRequest, SecurityConfig.LOGOUT_ENDPOINT))
         }
     }
 
