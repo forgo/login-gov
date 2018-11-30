@@ -16,7 +16,7 @@
 
 Note the `ext` block of the `build.gradle` contains variables used to populate some configuration. This is accomplished via the `processResources` task which expands any project properties into the `application.yml`.
 
-For the purposes of demonstation, you shouldn't need to change any values here (possibly `clientId`, see step #3). Once you better understand these variables, you may decide to change them for your use case:
+For the purposes of demonstation, you shouldn't need to change any values here (except `clientId`, see step #3). Once you better understand these variables, you may decide to change them for your use case:
 
 - `clientId`: a unique identifier for your application, published to Login.gov
 - `allowedOrigin`: specify the origin that you want to allow cross-domain requests from
