@@ -4,7 +4,6 @@
 
 `./gradlew jks`
 
-Output:
 ```
 .keystore/
     - debug.crt
@@ -13,11 +12,11 @@ Output:
     - keystore.pkcs12
 ```
 
-**2. (OPTIONAL) Publish test app with Login.gov:**
+**2. (OPTIONAL) Publish test app on the [Login.gov Dashboard](https://dashboard.int.identitysandbox.gov/):**
 
-Ensure your configuration is in sync with the [Login.gov Dashboard](https://dashboard.int.identitysandbox.gov/) before running the application.
+As long as the test data originally published for this demo app remains in the Login.gov sandbox, you should not need to change these settings.
 
-Creating your test app, you'll want to configure the following:
+If you have developer access and wish to register your own test app, ensure your configuration is in sync before running the application. You'll want to configure the following on the dashboard:
 
 - **Identity protocol**: "Openid connect"
 - **Issuer**: "urn:gov:gsa:openidconnect.profiles:sp:sso:_\<your organization\>_:_\<your app name\>_"
@@ -29,7 +28,7 @@ Creating your test app, you'll want to configure the following:
 
 **NOTE:** The value "logingov" as the `<registrationId>` of our Spring Security autoconfiguration is arbitrary. If you really need to change this, change it in the `application.yml` and also the constant `LOGIN_GOV_REGISTRATION_ID` in the `LoginGovConstants` file. Your `Redirect URIs` registered on your login.gov test app will also need to reflect this change, as those paths are generated from a template.
 
-#### Run the app:
+**3. Run the application
 
 `./gradlew bootrun`
 
