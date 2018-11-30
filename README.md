@@ -29,18 +29,14 @@ For the purposes of demonstation, you shouldn't need to change any values here (
 - `keystorePassword`: the password used to generate the keystore
 
 
-
-**3. Review Login.gov OpenID documentation:**
+<br/>**3. Review Login.gov OpenID documentation:**
 
 To better understand the specification which drove this project, refer to the [OpenID Developer Guide](https://developers.login.gov/oidc/) provided by Login.gov.
 
 
+<br/>**4. Publish test app on the [Login.gov Dashboard](https://dashboard.int.identitysandbox.gov/):**
 
-**4. (OPTIONAL) Publish test app on the [Login.gov Dashboard](https://dashboard.int.identitysandbox.gov/):**
-
-As long as the test data originally published for this demo app remains in the Login.gov sandbox, you should not need to change these settings.
-
-If you have developer access and wish to register your own test app, ensure your configuration is in sync before running the application. You'll want to configure the following on the dashboard:
+If you have developer access,register your own test app and ensure your configuration is in sync before running the application. You'll want to configure the following on the dashboard:
 
 - **Identity protocol**: "Openid connect"
 - **Issuer**: "urn:gov:gsa:openidconnect.profiles:sp:sso:_\<your organization\>_:_\<your app name\>_"
@@ -58,8 +54,7 @@ If you have developer access and wish to register your own test app, ensure your
 **NOTE:** The value "logingov" as the `<registrationId>` of our Spring Security autoconfiguration is arbitrary. If you really need to change this, change it in the `application.yml` and also the constant `LOGIN_GOV_REGISTRATION_ID` in the `LoginGovConstants` file. Your `Redirect URIs` registered on your login.gov test app will also need to reflect this change, as those paths are generated from a template.
 
 
-
-**5. Run the application:**
+<br/>**5. Run the application:**
 
 `./gradlew bootrun`
 
